@@ -21,5 +21,5 @@
 2. Compile all Java files into the `bin/` folder:
 
 ```bash
-compile_commoand: javac -d bin src/Main/*.java
-run_commoand: java -cp bin Main.Main  
+compile_commoand: javac -d bin src/Main/*.java src/Entity/*.java
+run_commoand: java -cp bin src.Main.Main

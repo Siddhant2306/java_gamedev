@@ -7,12 +7,14 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import src.Entity.Player;
+
 public class GamePanel extends JPanel implements Runnable{  // This is inside the JFrame component which will allow us to draw on the screen
     //Screeen Settings
     final int OriginalTileSize = 16;
     final int scale = 3;    
 
-    final int TileSize = OriginalTileSize * scale;
+    public final int TileSize = OriginalTileSize * scale;
     final int maxscreencol = 16;
     final int maxscreenrow = 12;
     final int ScreeenWidth = TileSize * maxscreencol; // 768 pixels 
@@ -21,15 +23,10 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     //FPS
     int Fps = 60;
 
-    KeyHandler keyHandler = new KeyHandler();
     Thread gametThread;
-
-    //Default position
-    int PlayerX = 100;
-    int PlayerY = 100;
-    int PlayerSpeed = 5;
-
-
+    KeyHandler keyHandler = new KeyHandler();
+    Player player1 = new Player(100,100,5,this,keyHandler, Color.WHITE);
+    Player player2 = new Player(200,200,5,this, keyHandler,Color.GREEN);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(ScreeenWidth,ScreenHeight));
@@ -87,20 +84,8 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
 
     public void Update()
     {
-        if(keyHandler.upPressed == true)
-        {
-            PlayerY -= PlayerSpeed;
-        }
-        else if(keyHandler.downPressed == true){
-            PlayerY += PlayerSpeed;
-        }
-        else if(keyHandler.leftPressed == true){
-            PlayerX -= PlayerSpeed;
-        }
-        else if(keyHandler.rightPressed == true){
-            PlayerX += PlayerSpeed;
-        }
-    
+        player1.Update(keyHandler.upPressed_1,keyHandler.downPressed_1,keyHandler.leftPressed_1,keyHandler.rightPressed_1);
+        player2.Update(keyHandler.upPressed_2,keyHandler.downPressed_2,keyHandler.leftPressed_2,keyHandler.rightPressed_2);
     }
 
     public void paintComponent(Graphics g) // A JPanel Methon To draw Objects on screen(JFrame)
@@ -108,8 +93,9 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
         super.paintComponent(g); //It clears the background so old frames don’t overlap
         Graphics2D g2 = (Graphics2D)g;
 
-        g2.setColor(Color.white);
-        g2.fillRect(PlayerX,PlayerY, TileSize, TileSize);
+        player1.Draw(g2);
+        player2.Draw(g2);
+
         g2.dispose();
     }
 }

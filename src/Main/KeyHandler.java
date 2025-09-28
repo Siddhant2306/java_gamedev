@@ -5,7 +5,11 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
 
-    public boolean upPressed,downPressed,leftPressed,rightPressed;
+    //Player 1
+    public boolean upPressed_1,downPressed_1,leftPressed_1,rightPressed_1;
+
+    //Player 2
+    public boolean upPressed_2,downPressed_2,leftPressed_2,rightPressed_2;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -16,55 +20,36 @@ public class KeyHandler implements KeyListener{
 
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_W)
-        {
-            upPressed = true;
+        // Player 1 (Arrow keys)
+        if (code == KeyEvent.VK_UP) upPressed_1 = true;
+        if (code == KeyEvent.VK_DOWN) downPressed_1 = true;
+        if (code == KeyEvent.VK_LEFT) leftPressed_1 = true;
+        if (code == KeyEvent.VK_RIGHT) rightPressed_1 = true;
+
+        // Player 2 (WASD)
+        if (code == KeyEvent.VK_W) upPressed_2 = true;
+        if (code == KeyEvent.VK_S) downPressed_2 = true;
+        if (code == KeyEvent.VK_A) leftPressed_2 = true;
+        if (code == KeyEvent.VK_D) rightPressed_2 = true;
 
         }
-        
-        if(code == KeyEvent.VK_A)
-        {
-            leftPressed = true;
-            
-        }
-        
-        if(code == KeyEvent.VK_S)
-        {
-            downPressed = true;
-        }
-        
-        if(code == KeyEvent.VK_D)
-        {
-            rightPressed = true;
-        }
-    }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_W)
-        {
-            upPressed = false;
+        // Player 1 (Arrow keys)
+        if (code == KeyEvent.VK_UP) upPressed_1 = false;
+        if (code == KeyEvent.VK_DOWN) downPressed_1 = false;
+        if (code == KeyEvent.VK_LEFT) leftPressed_1 = false;
+        if (code == KeyEvent.VK_RIGHT) rightPressed_1 = false;
 
-        }
-        
-        if(code == KeyEvent.VK_A)
-        {
-            leftPressed = false;
-            
-        }
-        
-        if(code == KeyEvent.VK_S)
-        {
-            downPressed = false;
-        }
-        
-        if(code == KeyEvent.VK_D)
-        {
-            rightPressed = false;
-        }
+        // Player 2 (WASD)
+        if (code == KeyEvent.VK_W) upPressed_2 = false;
+        if (code == KeyEvent.VK_S) downPressed_2 = false;
+        if (code == KeyEvent.VK_A) leftPressed_2 = false;
+        if (code == KeyEvent.VK_D) rightPressed_2 = false;
         
     }
     
