@@ -1,15 +1,21 @@
 package src.Entity;
 
 import src.Main.KeyHandler;
+
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import src.Main.GamePanel;
 
 public class Player extends Entity {
 
     GamePanel gp;
     KeyHandler keyHandler;
-    int spriteCounter = 0;   // For animation timing
+    int playerScale = 2;
 
     public Player(int x, int y, int Speed, GamePanel gp, KeyHandler keyHandler, String Direction) {
         this.x = x;
@@ -19,35 +25,47 @@ public class Player extends Entity {
         this.keyHandler = keyHandler;
         this.Direction = Direction;
 
+        getPlayerImage();
+    }
+
+    public void getPlayerImage() {
         try {
-            SpriteImage(); // loads all frames dynamically
+            rightFrames = new BufferedImage[8];
+            leftFrames = new BufferedImage[8];
+
+            for (int i = 0; i < 8; i++) {
+                rightFrames[i] = ImageIO.read(
+                        new File("res/walking_sprite/walk_" + (i + 1) + ".png"));
+                leftFrames[i] = flipImage(rightFrames[i]);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void resetFrame() {
-        this.currentFrame = 0;
-    }
-
-    @Override
-    public void SpriteImage() throws IOException {
-        super.SpriteImage(); // load frames from sprite sheet
+    // Flip horizontally
+    private BufferedImage flipImage(BufferedImage img) {
+        int w = img.getWidth();
+        int h = img.getHeight();
+        // Use TYPE_INT_ARGB to preserve transparency
+        BufferedImage flipped = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = flipped.createGraphics();
+        g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);
+        g.dispose();
+        return flipped;
     }
 
     // Update player position and animation
     public void Update(boolean up, boolean down, boolean left, boolean right) {
-
         boolean moving = false;
 
         if (up) {
             y -= Speed;
-            Direction = "up";
             moving = true;
-        } 
+        }
         if (down) {
             y += Speed;
-            Direction = "down";
             moving = true;
         }
         if (left) {
@@ -61,20 +79,33 @@ public class Player extends Entity {
             moving = true;
         }
 
-        // Animate only if a key is pressed
+        // Animate only when moving
         if (moving) {
-            spriteCounter++;
-            if (spriteCounter > 15) { // change frame every 15 ticks
-                nextFrame(); // advance frame in Entity
-                spriteCounter = 0;
+            frameCounter++;
+            if (frameCounter >= frameDelay) {
+                frameIndex = (frameIndex + 1) % rightFrames.length;
+                frameCounter = 0;
             }
-        } 
-    // Do nothing if no key is pressed: frame stays the same
-}
+        } else {
+            frameIndex = 0; // idle frame
+        }
+    }
 
-
-    // Draw the player with rotation and scaling
     public void Draw(Graphics2D g2) {
-        super.draw(g2, gp.TileSize);
+        BufferedImage image = null;
+
+        if ("right".equals(Direction)) {
+            image = rightFrames[frameIndex];
+        } else if ("left".equals(Direction)) {
+            image = leftFrames[frameIndex];
+        } else {
+            image = rightFrames[0]; // idle frame
+        }
+        
+        int newWidth = image.getWidth() * playerScale;
+        int newHeight = image.getHeight() * playerScale;
+
+
+        g2.drawImage(image, x, y, newWidth, newHeight, null);
     }
 }

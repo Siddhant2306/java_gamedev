@@ -5,15 +5,19 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import src.Entity.Player;
 
 public class GamePanel extends JPanel implements Runnable{  // This is inside the JFrame component which will allow us to draw on the screen
     //Screeen Settings
-    final int OriginalTileSize = 32;
-    final int scale = 4;    
+    final int OriginalTileSize = 16;
+    final int scale = 5;    
 
     public final int TileSize = OriginalTileSize * scale;
     final int maxscreencol = 16;
@@ -24,10 +28,13 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     //FPS
     int Fps = 60;
 
+    //Backgounds (Levels)
+    BufferedImage Backgound;
+
     Thread gametThread;
     KeyHandler keyHandler = new KeyHandler();
 
-    Player player1 = new Player(100,100,5,this,keyHandler,"Down");
+    Player player1 = new Player(300,300,3,this,keyHandler,"Down");
     //Player player2 = new Player(200,200,5,this, keyHandler);
 
     public GamePanel(){
@@ -36,6 +43,12 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+
+        try {
+            Backgound = ImageIO.read(new File("res/Background/dead_forest.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,6 +107,11 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     {
         super.paintComponent(g); //It clears the background so old frames don’t overlap
         Graphics2D g2 = (Graphics2D)g;
+
+        if (Backgound != null) 
+        {
+            g2.drawImage(Backgound, 0, 0, ScreeenWidth, ScreenHeight, null);
+        }
 
         player1.Draw(g2);
         //player2.Draw(g2);
