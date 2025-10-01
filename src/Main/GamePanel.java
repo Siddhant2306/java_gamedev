@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import src.Entity.Player;
+import src.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{  // This is inside the JFrame component which will allow us to draw on the screen
     //Screeen Settings
@@ -31,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     //Backgounds (Levels)
     BufferedImage Backgound;
 
+    TileManager tileManager = new TileManager(this);
     Thread gametThread;
     KeyHandler keyHandler = new KeyHandler();
 
@@ -112,6 +114,8 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
         {
             g2.drawImage(Backgound, 0, 0, ScreeenWidth, ScreenHeight, null);
         }
+
+        tileManager.Draw(g2);
 
         player1.Draw(g2);
         player2.Draw(g2);
