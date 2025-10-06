@@ -11,6 +11,9 @@ public class KeyHandler implements KeyListener{
     //Player 2
     public boolean upPressed_2,downPressed_2,leftPressed_2,rightPressed_2;
 
+    //Attacks of players
+    public boolean basicAttack;
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -32,6 +35,8 @@ public class KeyHandler implements KeyListener{
         if (code == KeyEvent.VK_A) leftPressed_2 = true;
         if (code == KeyEvent.VK_D) rightPressed_2 = true;
 
+        if(code == KeyEvent.VK_J) basicAttack = true;
+
         }
 
     @Override
@@ -50,6 +55,8 @@ public class KeyHandler implements KeyListener{
         if (code == KeyEvent.VK_S) downPressed_2 = false;
         if (code == KeyEvent.VK_A) leftPressed_2 = false;
         if (code == KeyEvent.VK_D) rightPressed_2 = false;
+
+        if(code == KeyEvent.VK_J) basicAttack = false;
         
     }
     

@@ -23,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     public final int TileSize = OriginalTileSize * scale;
     final int maxscreencol = 16;
     final int maxscreenrow = 12;
-    final int ScreeenWidth = TileSize * maxscreencol; // 768 pixels 
-    final int ScreenHeight = TileSize * maxscreenrow; // 576 pixels
+    public final int ScreenWidth = TileSize * maxscreencol; // 768 pixels 
+    public final int ScreenHeight = TileSize * maxscreenrow; // 576 pixels
 
     //FPS
     int Fps = 60;
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     //Backgounds (Levels)
     BufferedImage Backgound;
 
-    TileManager tileManager = new TileManager(this);
+    TileManager tileManager = new TileManager(this); //Passing the current instance of the GamePanel
     Thread gametThread;
     KeyHandler keyHandler = new KeyHandler();
 
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     Player player2 = new Player(900,400,5,this, keyHandler,"left",2);
 
     public GamePanel(){
-        this.setPreferredSize(new Dimension(ScreeenWidth,ScreenHeight));
+        this.setPreferredSize(new Dimension(ScreenWidth,ScreenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
@@ -101,8 +101,25 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
 
     public void Update()
     {
-        player1.Update(keyHandler.upPressed_1,keyHandler.downPressed_1,keyHandler.leftPressed_1,keyHandler.rightPressed_1);
-        player2.Update(keyHandler.upPressed_2,keyHandler.downPressed_2,keyHandler.leftPressed_2,keyHandler.rightPressed_2);
+        
+        player1.Update(
+        keyHandler.upPressed_1,
+        keyHandler.downPressed_1,
+        keyHandler.leftPressed_1,
+        keyHandler.rightPressed_1,
+        tileManager, 
+        player2
+    );
+
+    player2.Update(
+        keyHandler.upPressed_2,
+        keyHandler.downPressed_2,
+        keyHandler.leftPressed_2,
+        keyHandler.rightPressed_2,
+        tileManager, 
+        player1
+    );
+
     }
 
     public void paintComponent(Graphics g) // A JPanel Methon To draw Objects on screen(JFrame)
@@ -112,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
 
         if (Backgound != null) 
         {
-            g2.drawImage(Backgound, 0, 0, ScreeenWidth, ScreenHeight, null);
+            g2.drawImage(Backgound, 0, 0, ScreenWidth, ScreenHeight, null);
         }
 
         tileManager.Draw(g2);
