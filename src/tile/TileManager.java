@@ -3,6 +3,8 @@ package src.tile;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+//import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -34,10 +36,8 @@ public class TileManager {
                 0,          // x
                 fenceY,     // y: move collider up
                 gp.ScreenWidth, // width
-                fenceHeight    // height of fence
+                fenceHeight // height of fence
             );
-
-
             tile[0].visible = false; // make it visible for debugging
 
         } catch (IOException e) {
@@ -47,11 +47,14 @@ public class TileManager {
 
     public void Draw(Graphics2D g2) {
         int newWidth  = (int)(tile[0].TileImage.getWidth() / scale);   
-        int newHeight = (int)(tile[0].TileImage.getHeight() / scale); 
+        int newHeight = (int)(tile[0].TileImage.getHeight() / scale);
+        
+        //g2.setColor(Color.RED);
+        //g2.fill(tile[0].bounds);
+    
 
         if (tile[0].visible) {
             g2.drawImage(tile[0].TileImage, 0, 0, newWidth, newHeight, null);
-    
         }
     }
 }

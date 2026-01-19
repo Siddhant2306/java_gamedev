@@ -7,8 +7,8 @@ public class Entity {
     public int x, y;
     public int Speed;
 
-    public BufferedImage[] rightFrames; // walking right
-    public BufferedImage[] leftFrames;  // walking left
+    public BufferedImage[] rightFrames; 
+    public BufferedImage[] leftFrames;
     BufferedImage[] attackRightFrames;
     BufferedImage[] attackLeftFrames;
 

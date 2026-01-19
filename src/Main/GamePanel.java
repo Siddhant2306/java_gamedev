@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import src.Entity.Player;
+import src.UI.HealthBar;
 import src.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{  // This is inside the JFrame component which will allow us to draw on the screen
@@ -35,6 +36,10 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
     TileManager tileManager = new TileManager(this); //Passing the current instance of the GamePanel
     Thread gametThread;
     KeyHandler keyHandler = new KeyHandler();
+    HealthBar healthBar_player1 = new HealthBar(5,5);
+    HealthBar healthBar_player2 = new HealthBar(890,5);
+    
+    
 
     Player player1 = new Player(80,400,5,this,keyHandler,"right",1);
     Player player2 = new Player(900,400,5,this, keyHandler,"left",2);
@@ -133,6 +138,8 @@ public class GamePanel extends JPanel implements Runnable{  // This is inside th
         }
 
         tileManager.Draw(g2);
+        healthBar_player1.draw(g2,false);
+        healthBar_player2.draw(g2,true);
 
         player1.Draw(g2);
         player2.Draw(g2);
